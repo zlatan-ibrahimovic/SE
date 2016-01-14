@@ -1,0 +1,115 @@
+\documentclass[12pt, a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{subfig}
+\usepackage{float}
+%\usepackage{algorithm,algorithmic}
+\usepackage[inoutnumbered]{algorithm2e}
+
+
+
+
+
+\title{NACHOS:Entrées/Sorties}
+\author{
+	ANABA Henri Frank\\
+	CONSTANS Olivier\\
+	TOUATI Amira
+	}
+	
+\begin{document}
+
+\makeatletter
+  \begin{titlepage}
+  \centering
+      {\large\textbf{	Université de Bordeaux\\
+       Département Master}}\\
+      \includegraphics[width=0.20\textwidth]{logo-labri}
+      \hfill
+      \includegraphics[width=0.50\textwidth]{universite-bordeaux-logo}\\
+    \vspace{4cm}
+      
+       {\LARGE \textbf{\@title}} \\
+    \vspace{2cm}
+   
+    \vspace{4em}
+        {\large \@author} \\
+    \vfill
+    	{\large 1ère Année de Master Informatique}\\
+    	{\large \textsc{2014-2015}}\\
+    
+    \end{titlepage}
+
+
+\tableofcontents
+
+
+
+\chapter{Implémentation}
+
+\section{Entrées-sorties}
+	La première version d'Entrées-sorties était asynchrone. L'utilisateur devait se préoccuper de la synchronisation de ces lectures/écritures en utilisant des \textbf{"Semaphores"} . Lire sans être averti qu'il y ait quelque chose à lire, ne garantit pas le bon résultat de la lecture.De même écrire sans être averti que l'écriture précédente est terminée peut provoquer un écrasement de caractères.
+	\paragraph{}
+	Nous avons donc implémenté une couche entrées-sorties synchrone \textit{ SynchConsole } au-dessus de la couche \textit{ Console } qui encapsule le mécanisme des sémaphores. Ainsi l'utilisateur a à sa disposition deux fonctions qui font la synchronisation pour lui.
+	\paragraph{} 
+	On a donc complété le fichier  \textit{ Makefile.common} pour rajouter \textit{ SynchConsole }  et modifier le fichier \textit{ threads/main.cc } pour ajouter une option -sc de test de la \textit{ SynchConsole }.
+
+\section{Appel système PutChar}
+
+	Pour le bon fonctionnement du programme utilisateur Nachos  \textit{ PutChar } on a du mettre en place un appel système dans le fichier  \textit{ userprog/exception.cc }en utilisant la fonction   \textit{ SynchPutChar } définie dans la couche \textit{ SynchConsole } .
+	\paragraph{} 
+	Ensuite on a été amené à ajouter le numéro (11) de l'appel système et la déclaration de la fonction dans le fichier \textit{ userprog/syscall.h } puis  à rajouter la définition en assembleur de PutChar dans le fichier \textit{ test/start.S }.
+	\paragraph{} 
+	Mais pour que ça marche on a du ajouter une définition globale de  \textit{ SynchConsole }  dans l'initialisation du système dans le fichier  \textit{ threads/system.cc }.
+
+
+\section{Des caractères aux chaînes}
+	Pour le moment notre système d'exploitation ne peut écrire qu'un seul caractère à la fois, on s'est donc occupé de compléter la méthode   \textit{ SynchPutString } de la classe \textit{ SynchConsole }  puis d'implémenter la procédure \textit{ copyStringFromMachine } qui copie une chaîne de caractère du mode MIPS vers le mode Linux. Nous avons mis cette procédure dans le fichier \textit{ userprog/exception.cc } car elle fournit au noyau une copie de la chaîne utilisateur. Cette copie sera réservée au système.
+		\paragraph{} 
+on a ajouté l'appel système  \textit{PutString } qui utilise les procédures \textit{ copyStringFromMachine } et  \textit{ SynchPutString } , pour cela on a utilisé un buffer local de taille \textit{ MAX\_STRING\_SIZE } en la déclarant dans le fichier \textit{ threads/system.h }
+	\paragraph{} 
+	Il ne serait pas raisonnable d'allouer un buffer de la même taille que la chaîne MIPS; car si l'utilisateur demande une chaîne de caractère très grande, ça va allouer trop de mémoire et pour optimiser cela on a préféré utilisé un buffer interne. Si la taille du buffer interne est inférieure à celle de la chaîne, nous lisons la chaîne par morceau.  
+\section{Modification de fin de fonction }
+	Si un programme utilisateur oubliait d'utiliser l'appel système  \textit{Halt}, cela provoquait une erreur. Pour corriger ce problème, nous avons rajouté le comportement de \textit{Halt} par default. Si un utilisateur oublie d'utiliser  \textit{Halt}, le système utilise l'appel système  \textit{Exit}. Nous avons donc donné le comportement de  \textit{Halt} à  \textit{Exit}.
+	\paragraph{}
+	De plus, notre système d'exploitation ne prenez pas en compte la valeur de retour. Cette erreur était dû a un problème dans le code assembleur, lors de l'appel système\textit{Halt} le système ne s'arrête pas directement, il appelle une dernière fois \textit{Exit}. Or la valeur de retour était stockée dans le registre~2 et l'appel de \textit{Exit} écrasait la valeur du registre~2. Ainsi pour régler le problème,nous avons copié la valeur de retour dans le registre~4 avant de faire l'appel de \textit{Exit}.
+
+\section{Fonctions de lecture}
+	A ce moment notre système d'exploitation ne sait qu'écrire , pour lui permettre de lire on a complété l'appel système  \textit{ GetChar } dans le fichier \textit{ userprog/exception.cc } en affectant le résultat de la fonction  \textit{ SynchGetChar } dans le registre~2. 
+		\paragraph{}
+		Ensuite on a complété la méthode  \textit{ SynchGetString } de la classe \textit{ SynchConsole } pour permettre la lecture d'une chaîne de caractère. Puis complété l'appel système  \textit{ GetString } et il a fallu définir une fonction  \textit{ copyStringToMachine } qui permet de copier la chaîne dans le registre~4. 
+	
+	\section{Gestion des entiers}
+	
+	Afin de permettre au système d'exploitation l'écriture externe décimale on a ajouté l'appel système \textit{ PutInt } en utilisant la fonction  \textit{ snprintf } qui permet de convertir un entier en chaîne de caractère pour la donner en paramètre  à la fonction  \textit{SynchPutString}. De même pour  \textit{ GetInt},nous avons utilisé la fonction \textit{SynchGetString}  et nous avons converti la chaîne récupérée en entier grâce à la fonction \textit{ sscanf}.
+
+\chapter{Points délicats et limitation }
+	\section{Points délicats}
+
+	Ce qui a été plus complexe à réaliser dans le projet était la partie concernant les appels système \textit{ PutString } et \textit{ GetString }. On a dû utiliser un buffer de taille constante pour l'écriture et la lecture, quelque soit la longueur de notre chaîne.\\
+	Pour résoudre ce problème on a utilisé une boucle qui compare le taille du buffer à la taille de la chaîne restante à lire. Si la taille du buffer est inférieure on lit par segment de ce dernier, sinon la taille de la chaîne restante.
+	\paragraph{}
+	Nous avons eu un autre problème concernant le \textit{ GetString }, nous avions mal compris le comportement qu'il devait avoir dans le cas où la chaîne de caractères donnée est plus grande que le nombre de caractère à lire. Pour éviter que les caractères non lus se retrouve sur la console, nous avions décidé de les lire sans les mémoriser. Hors le comportement attendu de \textit{ GetString } ne se préoccupe pas des caractères excédants. Nous avons donc décidé de ne plus les lire. 
+	\paragraph{}
+		\section{Limitation}
+
+	Pour pouvoir afficher simultanément des chaîne de caractères et des entiers, l'utilisateur doit utiliser consécutivement les fonctions \textit{ PutString } et \textit{ PutInt }. Pour régler ce problème nous aurions pu implémenter la fonction \textit{ printf }.
+	
+\chapter{Tests}
+	Nous avons d'abord testé les fonctions d'écriture pour pouvoir les utiliser dans les tests de lecture. Nous avons un fichier de test par appel système. Une petite documentation permettant de comprendre le test est disponible en début de chaque fichier.\\
+	\begin{verbatim}
+	Dans le répertoire userprog :
+   		./nachos -x ../test/putChar
+   		./nachos -x ../test/putCtring
+   		./nachos -x ../test/putInt
+   		./nachos -x ../test/getChar
+   		./nachos -x ../test/getString
+   		./nachos -x ../test/getInt
+	\end{verbatim}
+
+\end{document}

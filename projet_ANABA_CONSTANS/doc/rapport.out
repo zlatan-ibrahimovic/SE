@@ -1,0 +1,15 @@
+\BOOKMARK [0][-]{chapter.1}{Pr\351sentation du sujet}{}% 1
+\BOOKMARK [0][-]{chapter.2}{Traitement du sujet}{}% 2
+\BOOKMARK [1][-]{section.2.1}{Parall\351lisation avec OpenMP}{chapter.2}% 3
+\BOOKMARK [2][-]{subsection.2.1.1}{Parall\351lisation des boucles}{section.2.1}% 4
+\BOOKMARK [2][-]{subsection.2.1.2}{Mise en place de la strat\351gie << frist touch >>}{section.2.1}% 5
+\BOOKMARK [2][-]{subsection.2.1.3}{tri suivant z }{section.2.1}% 6
+\BOOKMARK [2][-]{subsection.2.1.4}{tri par boite}{section.2.1}% 7
+\BOOKMARK [1][-]{section.2.2}{Exp\351rimentations}{chapter.2}% 8
+\BOOKMARK [2][-]{subsection.2.2.1}{Variations sur le domaine initiale}{section.2.2}% 9
+\BOOKMARK [2][-]{subsection.2.2.2}{Variations sur la politique de distribution d'indices}{section.2.2}% 10
+\BOOKMARK [2][-]{subsection.2.2.3}{Variations sur le placement des threads et de la m\351moire}{section.2.2}% 11
+\BOOKMARK [2][-]{subsection.2.2.4}{Variation sur le type de machine}{section.2.2}% 12
+\BOOKMARK [1][-]{section.2.3}{Parall\351lisation avec OpenCL}{chapter.2}% 13
+\BOOKMARK [2][-]{subsection.2.3.1}{Application de la gravit\351}{section.2.3}% 14
+\BOOKMARK [2][-]{subsection.2.3.2}{Calcul des forces avec tri par bo\356tes}{section.2.3}% 15

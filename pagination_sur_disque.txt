@@ -1,0 +1,303 @@
+
+
+		******************************************
+			PAGINATION SUR DISQUE 
+		******************************************
+			
+
+
+PB: Que faire lorsque la mémoire physique est pleine (get_free_page() échoue )
+
+
+
+
+    	      	      1
+    	       ____________________________
+	      !                            !
+	      !       Processeur  	   !
+	      !____________________________!
+			   !
+			   !
+			   !		2
+			   !	   ____________________________
+		           !______!                            !
+	     		   !	  !  Mémoire physique  	       !
+	      		   !	  !____________________________!
+			   !
+	  _______________  !
+        !                !_!
+	! carte réseaux  ! !
+	 ________________! !
+			   !		 ____________________________
+        		   !___________	!      carte                 !
+			   !		!          graphique         !
+			   !		 ____________________________
+        		   !					
+		  5   	   !
+	  __________________________
+        !                            !
+	! contrôleur de disque       !
+	 __________________________
+        
+
+
+ 1--->2
+	temps d'accès (latence = environ 100 ns)
+	4Go/s debit
+      
+1 ---> 5
+      latence 3ms
+      40MO/s
+
+
+
+
+Il n'est pas réaliste de tenter d'accéder de manière transparente à des pages qui seraient placées sur le disque. 
+
+
+Idée : On va placer des pages sur disque en les rendant temporaireme:nt inaccessibles.
+
+Lorsque get _free_page() a besoin de faire de la place:
+	1) Choisir une page en mémoire physique 
+	2) Allouer un emplacement sur le disque
+	2 bis) On invalide la page dans la table du processus 
+	3) Copier la page sur le disque.
+	4) get_free_page Classique.
+
+
+
+
+****************************************************************************************************************
+	PB: COMMENT CHOISIR UNE BONNE VICTIME?, C'EST A DIRE REPOUSSER AU PLUS TARD LE RAPPATRIEMENT DE LA PAGE 
+	--
+
+	1°) Utilisation de la date d'installation de la page en mémoire physique: FIFO
+	    + Facile à mettre en oeuvre: le noyau maintient la date d'installation pour chaque page physique.
+
+
+	      EX: Mémoire avec 3 pages physiques
+
+
+ ___
+! 0 ! 1
+! - !	      
+!   !
+! - !
+!___!
+
+
+ ___
+! 0 ! 2
+! - !	      
+! 1 !
+! - !
+!___!
+
+
+ ___
+! 0 ! 3
+! - !	      
+! 1 !
+! - !
+!_2_!     
+
+ ___
+! 3 ! 0
+! - !	      
+! 1 !
+! - !
+!_2_!
+
+
+ ___
+! 3 ! 1
+! - !	      
+! 0 !
+! - !
+!_2_!
+
+
+ ___
+! 3 ! 4
+! - !	      
+! 0 !
+! - !
+!_1_!
+
+ ___ 0
+! 4 !
+! - !	      
+! 0 !
+! - !
+!_1_!
+
+
+ ___
+! 4 !1
+! - !	      
+! 0 !
+! - !
+!_1_! OK
+
+
+ ___
+! 4 !2
+! - !	      
+! 0 !
+! - !
+!_1_! OK
+
+
+ ___
+! 4 !3
+! - !	      
+! 2 !
+! - !
+!_3_!
+
+
+
+ ___
+! 4 !4
+! - !	      
+! 2 !
+! - !
+!_3_!
+
+
+ ___
+! 4 !
+! - !	      
+! 2 !
+! - !
+!_3_! OK
+
+
+
+On remarque que si on utilise une machine avec 4 pages physiques et la même séquences d'accès , on obtient 10 défaults de page: ANOMALIE DE BELADY
+
+------>  Donc pas FIFO :(
+
+
+	 Si on veut des statistiques plus précises, il faut que ce soit dans la MMU...
+
+
+ =======> les statisques seront associées à des pages virtuelles typiquement on va ajouter un champs dans les entrées de la table des pages.
+  ____________________________________________________
+ !		    !	!  !  !  !		      !
+ ! N° page physique !	!  !  !	 !  Date?             !  ça serait bien, mais c'est trop cher.
+ !__________________!___!__!__!__!____________________!
+
+
+
+
+ ____________________________________________________
+ !		    !	!  !  !  !		      !
+ ! N° page physique !	!  !  !	 !  Compteur?         !  La MMU incrémente le compteur jusqu'à saturation périodiquement, le noyau remet à zéro les statistiques 
+ !__________________!___!__!__!__!____________________!	    Not Frequently Used (NFU)
+
+
+
+
+ Autre Idée:		  (used)_	MMU met à 1			    
+			  access !__ 	  
+ ___________________________________!__________________
+ !		    !	!  !  !  !   ! 		       !
+ ! N° page physique !	!  !  !	 ! 1 ! 110010          !  périodiquement , le noyau effectue un décallage logique vers la droite (cpt>>1)
+ !__________________!___!__!__!__!___!_________________!
+  
+								La page la moins récemment utilisée est celle avec le plus petit compteur.
+								   (NB: Linux n'utilise que le bit "access")
+
+
+
+		PB: a quel processus "vole- t -on " une page?
+
+		Rem: Le noyau peut observer le nombre de défaut de pages par seconde pour chaque processus.
+
+
+
+
+taux de défauts de page
+        ^ .
+	!  .
+	!   .		idée : on choisit le processus le plus heureux
+	!    .
+	!____ .
+	!     !.
+	!     !  .....................
+	!_____!________!_________________________ 
+	     min       max			nb pages physiques pocédées	      
+
+
+	     	       		Lorsqu'il y a trop de processus dans la zone min, chaque processus cherche une page chez les autres , trouve et rend le processus malheureux qui à son tour 
+				cherche et trouve chez un autre qui le rend aussi malheureux . Du coup le processus le fait en boucle et on ne peut plus travailler sur la machine. (Ex la souris 
+				ne bouge plus).
+
+
+
+ QUE SE PASSE-T-IL LORSQU'UN PROCESSUS ACCEDE A UNE PAGE QUI A ETE EVINCEE SUR LE DISQUE?
+ **************************************************************************************** 
+ 1°) Le noyau s'aperçoit que la page est en Fait sur le disque. 
+ 2°) get_free_page (éventuellement, get_free_page va provoquer un "swap_out")
+ 3°) On lit la page depuis le disque
+ 4°) On remplit la table des pages par la référence de cette nouvelle page physique.
+
+											! 15 ! 0 !  bit invalide à 0 mais avec un numéro de page physique ====> la page est certe invalide mais a déjà 
+											       	    été utilisée ; donc on va la chercher sur le disque. 
+											
+											! 0  ! 0 ! bit invalide à 0 et num de page à 0 page réellement invalide.
+
+
+
+
+
+
+
+
+								**************************************
+									OPTIMISATIONS
+								**************************************
+
+								- Anticiper les opérations de swap-out?
+								  ---> Maintenir un seuil de pages physique disponibles(ex 10 %)
+								       (Fait par un thread, périodiquement).
+								       Intérêt: get_free_page trouve immadiatement
+								- Idée : Conserver une copie des pages sur disque après un swap-in
+								  Objectif: économiser une écriture disque lors du prochain swap-out
+								  Condition: la page ne doit pas avoir été modifiée entre temps.
+								  Solution de la condition: Il faut que la MMU offre un support le bit "dirty" (positionné à 1 à chaque accès en écriture).
+								  
+								  
+								  ____________________________________________________
+								  !		     !	!  !  !  !  !		      !
+								  ! N° page physique !V	! R! W! X! D!  		      !
+								  !__________________!__!__!__!__!__!_________________!
+								  
+
+
+
+
+QUE SE PASSE - T- IL LORSQUE LE NOMBRE DE PROCESSUS DEVIENT TROP IMPORTANT ?
+---------------------------------------------------------------------------
+		=====> Si on ne fait rien, ça s'écroule 
+
+On groupe les processus sur la machine et on donne un temps d'exécution à chaque groupe pour que l'ordonnanceur ne gère que le groupe qui a 
+la main. Grace à çà, on élimine l'effet ping pong (chaque fois qu'un processus prend la main, il pique des pages à son voisin et son voisin
+lorsqu'il récupère la main, il reprend ses pages : écroulement de la machine). 
+====> on appelle cette solution le "gang scheduling".
+
+
+
+PAGES MISES DANS L'ESPACE DE SWAP: TOUTES LES PAGES SONT ELLES "SWAPABLES"
+-------------------------------------------------------------------------
+   ====> Non !
+   	 * les pages partagées par plusieurs processus ne sont pas swapables (car trop coûteux en exécution pour regarder chaque processus
+	     	   	     	 	   	     	     	 	   qui la partage et après pour les prévenir que la page n'est plus accessible).
+
+	 * 
+
+
+
+
+	 Lors d'un read, le DMA, est utilisé...								   

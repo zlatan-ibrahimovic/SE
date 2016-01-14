@@ -1,0 +1,10 @@
+PARTIE I
+
+ThreadsNOyaux threads/threads.cc 
+
+	      Allocation StackAllocate
+	      
+	      crée une pile d'entier stack de taille "StackSize"
+	      
+
+

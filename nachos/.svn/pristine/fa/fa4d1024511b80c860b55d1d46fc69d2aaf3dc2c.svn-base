@@ -1,0 +1,38 @@
+\relax 
+\catcode `:\active 
+\catcode `;\active 
+\catcode `!\active 
+\catcode `?\active 
+\select@language{french}
+\@writefile{toc}{\select@language{french}}
+\@writefile{lof}{\select@language{french}}
+\@writefile{lot}{\select@language{french}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{2}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{loa}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Impl\IeC {\'e}mentation}{3}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{loa}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Entr\IeC {\'e}es-sorties}{3}}
+\@writefile{toc}{\contentsline {paragraph}{}{3}}
+\@writefile{toc}{\contentsline {paragraph}{}{3}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Appel syst\IeC {\`e}me PutChar}{3}}
+\@writefile{toc}{\contentsline {paragraph}{}{3}}
+\@writefile{toc}{\contentsline {paragraph}{}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.3} Des caract\IeC {\`e}res aux cha\IeC {\^\i }nes}{4}}
+\@writefile{toc}{\contentsline {paragraph}{}{4}}
+\@writefile{toc}{\contentsline {paragraph}{}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Modification de fin de fonction }{4}}
+\@writefile{toc}{\contentsline {paragraph}{}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}Fonctions de lecture}{5}}
+\@writefile{toc}{\contentsline {paragraph}{}{5}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Tests}{6}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{loa}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Conclusion}{7}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{loa}{\addvspace {10\p@ }}

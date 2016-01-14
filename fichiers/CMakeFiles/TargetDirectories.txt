@@ -1,0 +1,2 @@
+/Users/frankanaba/Downloads/fichiers/CMakeFiles/atoms.dir
+/Users/frankanaba/Downloads/fichiers/libsotl/CMakeFiles/sotl.dir

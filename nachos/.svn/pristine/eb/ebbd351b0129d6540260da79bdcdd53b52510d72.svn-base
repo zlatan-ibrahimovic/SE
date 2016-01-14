@@ -1,0 +1,74 @@
+#ifdef CHANGED
+#include "copyright.h"
+#include "system.h"
+#include "synchconsole.h"
+#include "synch.h"
+
+static Semaphore *readAvail;
+static Semaphore *writeDone;
+static void ReadAvailHandler(void *arg) { (void) arg; readAvail->V(); }
+static void WriteDoneHandler(void *arg) { (void) arg; writeDone->V(); }
+ 
+
+
+SynchConsole::SynchConsole(const char *in, const char *out)
+{
+  readAvail = new Semaphore("read avail", 0);
+  writeDone = new Semaphore("write done", 0);
+  console = new Console (in, out, ReadAvailHandler, WriteDoneHandler, 0);
+}
+SynchConsole::~SynchConsole()
+{
+  delete console;
+  delete writeDone;
+  delete readAvail;
+}
+
+void SynchConsole::SynchPutChar(int ch)
+{
+  console->PutChar (ch);
+  writeDone->P ();
+  return ;
+}
+
+int SynchConsole::SynchGetChar()
+{
+  readAvail->P ();
+  return console->GetChar ();
+}
+void SynchConsole::SynchPutString(const char s[])
+{
+  int i=0;
+  while ( s[i] !='\0'){
+    console->PutChar(s[i]);
+    writeDone->P();
+    i++;
+  }
+}
+void SynchConsole::SynchGetString(char *s, int n)
+{
+  int i=0;
+  do{
+    readAvail->P ();
+    s[i]=console->GetChar ();
+    i++;
+  }while ( i < n && s[i-1]!='\0'&& s[i-1]!='\n');
+  s[i]='\0';
+}
+/*
+void SynchConsole::SynchPutInt(int n)
+{
+  console->PutChar (n);
+  writeDone->P ();
+  return ;
+}
+
+void SynchConsole::SynchGetInt(int *n)
+{
+  readAvail->P ();
+  console->GetInt ();
+  return;
+  }
+*/
+
+#endif // CHANGED

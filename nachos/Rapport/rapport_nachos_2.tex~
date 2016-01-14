@@ -1,0 +1,125 @@
+\documentclass[12pt, a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{subfig}
+\usepackage{float}
+%\usepackage{algorithm,algorithmic}
+\usepackage[inoutnumbered]{algorithm2e}
+
+
+
+
+
+\title{NACHOS:Multithreading}
+\author{
+	ANABA Henri Frank\\
+	CONSTANS Olivier\\
+	TOUATI Amira
+	}
+	
+\begin{document}
+
+\makeatletter
+  \begin{titlepage}
+  \centering
+      {\large\textbf{	Université de Bordeaux\\
+       Département Master}}\\
+      \includegraphics[width=0.20\textwidth]{logo-labri}
+      \hfill
+      \includegraphics[width=0.50\textwidth]{universite-bordeaux-logo}\\
+    \vspace{4cm}
+      
+       {\LARGE \textbf{\@title}} \\
+    \vspace{2cm}
+   
+    \vspace{4em}
+        {\large \@author} \\
+    \vfill
+    	{\large 1ère Année de Master Informatique}\\
+    	{\large \textsc{2014-2015}}\\
+    
+    \end{titlepage}
+
+
+\tableofcontents
+
+
+
+\chapter{Bilan}
+
+
+\section{Multithreading dans les programmes utilisateurs}
+
+Dans cette partie nous avons essayé de permettre aux programme utilisateurs de créer un thread fils avec un appel système qui utilisera le thread noyau, Nous avons donc mis en place l'interface des appels système  \textit{ ThreadCreate } et \textit{ ThreadExit }. Mais la création du thread peut échouer dans le cas où il existe plusieurs threads et que la pile du thread principal \textit{ UserStacksAreaSize } est saturée.
+On a ensuite implémenté la fonction \textit{ do\_ThreadCreate } qui instancie un nouveau thread et appelle la méthode \textit{ StartUserThread} qu'on a implémenté par la suite pour initialiser les registre pour 
+
+\section{Plusieurs threads par processus}
+
+
+
+\chapter{Points délicats et limitation }
+	\section{Points délicats}
+
+	Ce qui a été plus complexe à réaliser dans le projet était la partie concernant les appels système \textit{ PutString } et \textit{ GetString }. On a dû utiliser un buffer de taille constante pour l'écriture et la lecture, quelque soit la longueur de notre chaîne.\\
+	Pour résoudre ce problème on a utilisé une boucle qui compare le taille du buffer à la taille de la chaîne restante à lire. Si la taille du buffer est inférieure on lit par segment de ce dernier, sinon la taille de la chaîne restante.
+	\paragraph{}
+	Nous avons eu un autre problème concernant le \textit{ GetString }, nous avions mal compris le comportement qu'il devait avoir dans le cas où la chaîne de caractères donnée est plus grande que le nombre de caractère à lire. Pour éviter que les caractères non lus se retrouve sur la console, nous avions décidé de les lire sans les mémoriser. Hors le comportement attendu de \textit{ GetString } ne se préoccupe pas des caractères excédants. Nous avons donc décidé de ne plus les lire. 
+	\paragraph{}
+		\section{Limitation}
+
+	Pour pouvoir afficher simultanément des chaîne de caractères et des entiers, l'utilisateur doit utiliser consécutivement les fonctions \textit{ PutString } et \textit{ PutInt }. Pour régler ce problème nous aurions pu implémenter la fonction \textit{ printf }.
+	
+\chapter{Tests}
+	Nous avons d'abord testé les fonctions d'écriture pour pouvoir les utiliser dans les tests de lecture. Nous avons un fichier de test par appel système. Une petite documentation permettant de comprendre le test est disponible en début de chaque fichier.\\
+	\begin{verbatim}
+	Dans le répertoire userprog :
+   	        ./nachos -x ../test/threadCreate
+   		./nachos -x ../test/putCtring
+   		./nachos -x ../test/putInt
+   		./nachos -x ../test/getChar
+   		./nachos -x ../test/getString
+   		./nachos -x ../test/getInt
+	\end{verbatim}
+
+\end{document}
+ . Bilan
+
+Résumez très brièvement le travail que vous avez effectué, en mettant
+en évidence ce qui fonctionne, ce qui ne marche pas, ce qui n'a pas
+été fait par manque de temps mais qui ne pose pas de problème
+technique particulier (donnez des indications sur ce qui reste à
+faire), etc. Soyez honnête : indiquer qu'il reste des bugs en montrant
+que vous en êtes conscient est préférable à prétendre à tort que tout
+marche parfaitement...
+
+II . Points délicats
+
+Indiquez quels sont les aspects que vous avez le plus creusés, qui
+étaient les plus délicats/complexes, ou qui vous ont demandé le plus
+de travail à cause de problèmes de mise au point. Choisissez un de ces
+aspects et détaillez les stratégies utilisées pour résoudre le
+problème.
+
+III . Limitations
+
+Critiquez votre implémentation (i.e. listez les avantages &
+inconvénients) et indiquez clairement ses limitations. Lesquelles vous
+paraissent-elles les plus gênantes ?
+
+IV . Tests
+
+Décrivez brièvement la stratégie que vous avez utilisée pour écrire
+des programmes de test "convaincants" accompagnés de jeux de données
+représentatifs de conditions de "stress" pour votre implémentation.
+
+Il n'est pas demandé d'inclure du code ou le mode d'emploi des
+programmes de test : le code source de ces derniers doit contenir tous
+les commentaires permettant de les exécuter avec les bons paramètres
+et de connaître la sortie normale attendue à l'écran.
+----------------------------------
+

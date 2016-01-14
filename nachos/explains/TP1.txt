@@ -1,0 +1,19 @@
+Nachos est implémenté sans appel system bloquant; Donc la lecture avec nachos fait la lecture dans le buffer quelque soit le caractère 
+présent dans le buffer.
+
+Pour que ça fonctionne il faut rajouter un 'blocage'
+
+
+semaphore PRINCIP
+	  permet de faire un verrou sur plusieurs appels en même temps 
+	   
+
+
+	   V             ||               P
+	   reveille	 		  bloque tant qu'il 
+	   quelqu'un			  pas d'appel 
+	   dès qu'il y a 
+	   un caractère 
+
+
+

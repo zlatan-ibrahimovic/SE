@@ -1,0 +1,7 @@
+
+function add(i: integer, j:integer): integer{
+	 return i+j;
+}
+function test():integer{
+add(1,2);
+}

@@ -1,0 +1,436 @@
+Performing C SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec1191021901/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec1191021901.dir/build.make CMakeFiles/cmTryCompileExec1191021901.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec1191021901.dir/src.c.o
+/usr/bin/cc   -DOpenMP_FLAG_DETECTED   -o CMakeFiles/cmTryCompileExec1191021901.dir/src.c.o   -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.c
+/Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.c:2:10: fatal error: 'omp.h' file not found
+#include <omp.h>
+         ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTryCompileExec1191021901.dir/src.c.o] Error 1
+make: *** [cmTryCompileExec1191021901/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec590433281/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec590433281.dir/build.make CMakeFiles/cmTryCompileExec590433281.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec590433281.dir/src.c.o
+/usr/bin/cc   -DOpenMP_FLAG_DETECTED -fopenmp   -o CMakeFiles/cmTryCompileExec590433281.dir/src.c.o   -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.c
+clang: warning: argument unused during compilation: '-fopenmp'
+/Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.c:2:10: fatal error: 'omp.h' file not found
+#include <omp.h>
+         ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTryCompileExec590433281.dir/src.c.o] Error 1
+make: *** [cmTryCompileExec590433281/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec2737891433/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec2737891433.dir/build.make CMakeFiles/cmTryCompileExec2737891433.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2737891433.dir/src.c.o
+/usr/bin/cc   -DOpenMP_FLAG_DETECTED /openmp   -o CMakeFiles/cmTryCompileExec2737891433.dir/src.c.o   -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.c
+clang: error: no such file or directory: '/openmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec2737891433.dir/src.c.o] Error 1
+make: *** [cmTryCompileExec2737891433/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3214700120/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec3214700120.dir/build.make CMakeFiles/cmTryCompileExec3214700120.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3214700120.dir/src.c.o
+/usr/bin/cc   -DOpenMP_FLAG_DETECTED -Qopenmp   -o CMakeFiles/cmTryCompileExec3214700120.dir/src.c.o   -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.c
+clang: error: unknown argument: '-Qopenmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec3214700120.dir/src.c.o] Error 1
+make: *** [cmTryCompileExec3214700120/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3397435145/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec3397435145.dir/build.make CMakeFiles/cmTryCompileExec3397435145.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3397435145.dir/src.c.o
+/usr/bin/cc   -DOpenMP_FLAG_DETECTED -openmp   -o CMakeFiles/cmTryCompileExec3397435145.dir/src.c.o   -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.c
+/Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.c:2:10: fatal error: 'omp.h' file not found
+#include <omp.h>
+         ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTryCompileExec3397435145.dir/src.c.o] Error 1
+make: *** [cmTryCompileExec3397435145/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3789308029/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec3789308029.dir/build.make CMakeFiles/cmTryCompileExec3789308029.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3789308029.dir/src.c.o
+/usr/bin/cc   -DOpenMP_FLAG_DETECTED -xopenmp   -o CMakeFiles/cmTryCompileExec3789308029.dir/src.c.o   -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.c
+clang: error: language not recognized: 'openmp'
+clang: warning: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.c: 'linker' input unused
+make[1]: *** [CMakeFiles/cmTryCompileExec3789308029.dir/src.c.o] Error 1
+make: *** [cmTryCompileExec3789308029/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec2205798840/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec2205798840.dir/build.make CMakeFiles/cmTryCompileExec2205798840.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2205798840.dir/src.c.o
+/usr/bin/cc   -DOpenMP_FLAG_DETECTED +Oopenmp   -o CMakeFiles/cmTryCompileExec2205798840.dir/src.c.o   -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.c
+clang: error: no such file or directory: '+Oopenmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec2205798840.dir/src.c.o] Error 1
+make: *** [cmTryCompileExec2205798840/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec4045007845/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec4045007845.dir/build.make CMakeFiles/cmTryCompileExec4045007845.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec4045007845.dir/src.c.o
+/usr/bin/cc   -DOpenMP_FLAG_DETECTED -qsmp   -o CMakeFiles/cmTryCompileExec4045007845.dir/src.c.o   -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.c
+clang: error: unknown argument: '-qsmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec4045007845.dir/src.c.o] Error 1
+make: *** [cmTryCompileExec4045007845/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec639915350/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec639915350.dir/build.make CMakeFiles/cmTryCompileExec639915350.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec639915350.dir/src.c.o
+/usr/bin/cc   -DOpenMP_FLAG_DETECTED -mp   -o CMakeFiles/cmTryCompileExec639915350.dir/src.c.o   -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.c
+clang: error: unknown argument: '-mp'
+make[1]: *** [CMakeFiles/cmTryCompileExec639915350.dir/src.c.o] Error 1
+make: *** [cmTryCompileExec639915350/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C++ SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3963378633/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec3963378633.dir/build.make CMakeFiles/cmTryCompileExec3963378633.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec3963378633.dir/src.cxx.o
+/usr/bin/c++    -DOpenMP_FLAG_DETECTED   -o CMakeFiles/cmTryCompileExec3963378633.dir/src.cxx.o -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.cxx
+/Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.cxx:2:10: fatal error: 'omp.h' file not found
+#include <omp.h>
+         ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTryCompileExec3963378633.dir/src.cxx.o] Error 1
+make: *** [cmTryCompileExec3963378633/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C++ SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec2025805984/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec2025805984.dir/build.make CMakeFiles/cmTryCompileExec2025805984.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec2025805984.dir/src.cxx.o
+/usr/bin/c++    -DOpenMP_FLAG_DETECTED -fopenmp   -o CMakeFiles/cmTryCompileExec2025805984.dir/src.cxx.o -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.cxx
+clang: warning: argument unused during compilation: '-fopenmp'
+/Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.cxx:2:10: fatal error: 'omp.h' file not found
+#include <omp.h>
+         ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTryCompileExec2025805984.dir/src.cxx.o] Error 1
+make: *** [cmTryCompileExec2025805984/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C++ SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3929487694/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec3929487694.dir/build.make CMakeFiles/cmTryCompileExec3929487694.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec3929487694.dir/src.cxx.o
+/usr/bin/c++    -DOpenMP_FLAG_DETECTED /openmp   -o CMakeFiles/cmTryCompileExec3929487694.dir/src.cxx.o -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.cxx
+clang: error: no such file or directory: '/openmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec3929487694.dir/src.cxx.o] Error 1
+make: *** [cmTryCompileExec3929487694/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C++ SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3123835014/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec3123835014.dir/build.make CMakeFiles/cmTryCompileExec3123835014.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec3123835014.dir/src.cxx.o
+/usr/bin/c++    -DOpenMP_FLAG_DETECTED -Qopenmp   -o CMakeFiles/cmTryCompileExec3123835014.dir/src.cxx.o -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.cxx
+clang: error: unknown argument: '-Qopenmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec3123835014.dir/src.cxx.o] Error 1
+make: *** [cmTryCompileExec3123835014/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C++ SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3423046773/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec3423046773.dir/build.make CMakeFiles/cmTryCompileExec3423046773.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec3423046773.dir/src.cxx.o
+/usr/bin/c++    -DOpenMP_FLAG_DETECTED -openmp   -o CMakeFiles/cmTryCompileExec3423046773.dir/src.cxx.o -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.cxx
+/Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.cxx:2:10: fatal error: 'omp.h' file not found
+#include <omp.h>
+         ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTryCompileExec3423046773.dir/src.cxx.o] Error 1
+make: *** [cmTryCompileExec3423046773/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C++ SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3236351044/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec3236351044.dir/build.make CMakeFiles/cmTryCompileExec3236351044.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec3236351044.dir/src.cxx.o
+/usr/bin/c++    -DOpenMP_FLAG_DETECTED -xopenmp   -o CMakeFiles/cmTryCompileExec3236351044.dir/src.cxx.o -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.cxx
+clang: error: language not recognized: 'openmp'
+clang: warning: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.cxx: 'linker' input unused
+make[1]: *** [CMakeFiles/cmTryCompileExec3236351044.dir/src.cxx.o] Error 1
+make: *** [cmTryCompileExec3236351044/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C++ SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec249217642/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec249217642.dir/build.make CMakeFiles/cmTryCompileExec249217642.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec249217642.dir/src.cxx.o
+/usr/bin/c++    -DOpenMP_FLAG_DETECTED +Oopenmp   -o CMakeFiles/cmTryCompileExec249217642.dir/src.cxx.o -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.cxx
+clang: error: no such file or directory: '+Oopenmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec249217642.dir/src.cxx.o] Error 1
+make: *** [cmTryCompileExec249217642/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C++ SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3713024686/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec3713024686.dir/build.make CMakeFiles/cmTryCompileExec3713024686.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec3713024686.dir/src.cxx.o
+/usr/bin/c++    -DOpenMP_FLAG_DETECTED -qsmp   -o CMakeFiles/cmTryCompileExec3713024686.dir/src.cxx.o -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.cxx
+clang: error: unknown argument: '-qsmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec3713024686.dir/src.cxx.o] Error 1
+make: *** [cmTryCompileExec3713024686/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C++ SOURCE FILE Test OpenMP_FLAG_DETECTED failed with the following output:
+Change Dir: /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3350800821/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec3350800821.dir/build.make CMakeFiles/cmTryCompileExec3350800821.dir/build
+/usr/local/Cellar/cmake/3.1.3/bin/cmake -E cmake_progress_report /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec3350800821.dir/src.cxx.o
+/usr/bin/c++    -DOpenMP_FLAG_DETECTED -mp   -o CMakeFiles/cmTryCompileExec3350800821.dir/src.cxx.o -c /Users/frankanaba/Downloads/fichiers/CMakeFiles/CMakeTmp/src.cxx
+clang: error: unknown argument: '-mp'
+make[1]: *** [CMakeFiles/cmTryCompileExec3350800821.dir/src.cxx.o] Error 1
+make: *** [cmTryCompileExec3350800821/fast] Error 2
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+

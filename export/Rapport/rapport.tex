@@ -1,0 +1,107 @@
+\documentclass[12pt, a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{subfig}
+\usepackage{float}
+%\usepackage{algorithm,algorithmic}
+\usepackage[inoutnumbered]{algorithm2e}
+
+
+
+
+
+\title{NACHOS:Multithreading}
+\author{
+	ANABA Henri Frank\\
+	CONSTANS Olivier\\
+	TOUATI Amira
+	}
+	
+\begin{document}
+
+\makeatletter
+  \begin{titlepage}
+  \centering
+      {\large\textbf{	Université de Bordeaux\\
+       Département Master}}\\
+      \includegraphics[width=0.20\textwidth]{logo-labri}
+      \hfill
+      \includegraphics[width=0.50\textwidth]{universite-bordeaux-logo}\\
+    \vspace{4cm}
+      
+       {\LARGE \textbf{\@title}} \\
+    \vspace{2cm}
+   
+    \vspace{4em}
+        {\large \@author} \\
+    \vfill
+    	{\large 1ère Année de Master Informatique}\\
+    	{\large \textsc{2014-2015}}\\
+    
+    \end{titlepage}
+
+
+\tableofcontents
+
+
+
+\chapter{Bilan}
+
+
+\section{Multithreading dans les programmes utilisateurs}
+
+Dans cette partie nous avons essayé de permettre aux programmes utilisateurs de créer un thread fils avec un appel système qui utilisera le thread noyau. Nous avons donc mis en place l'interface des appels système  \textit{ ThreadCreate } et \textit{ ThreadExit }.
+\subsection{ThreadCreate }
+	\paragraph{}
+ L'appel système \textit{ ThreadCreate } crée un nouveau thread, l'initialise et le place dans la file d'attente des threads grâce à la fonction  \textit{ do\_ThreadCreate } qu'on a implémenté, Cette dernière instancie le thread et lance la fonction  \textit{ StartUserThread}. Celle-ci permet de mettre à jour les registres. Le registre \textit{ PCReg } contiendra la fonction qui sera exécuté par le thread fils, le registre 4  aura les paramètres de la fonction, tandis que le registre \textit{StackReg } aura l'adresse du thread fils, on mettra également à jour le registre -\textit{ NextPCReg } pour y mettre l'adresse de la prochaine instruction.\\
+Quant à l'espace d'adressage du thread crée on a du implémenter la méthode  \textit{ AllocateUserStack} qui retourne l'adresse de la pile ( les premiers 256 octets en-dessous de la pile du thread principal). Mais la création du thread peut quand même échouer dans le cas où il existe plusieurs threads et que la pile du thread principal \textit{ UserStacksAreaSize } est saturée.
+\subsection{ThreadExit }
+	\paragraph{}
+ L'appel système \textit{ ThreadExit } appelle la fonction \textit{ do\_ThreadExit } qui détruit le thread propulseur par l'appel \textit{ currentThread->Finish }. on utilise cela pour que le thread se termine lui même mais pas le processus.
+
+\section{Plusieurs threads par processus}
+
+Dans cette partie on a cherché à améliorer notre implémentation pour gérer la création et l'exécution de plusieurs threads. \\   
+\subsection{Gestion de la synchronisation des threads }
+Pour permettre au différents threads de s'exécuter en même temps nous avons protégé les fonctions noyau \textit{ PutChar }  et \textit{ GetChar } par un verrou.  \\
+On peut utiliser deux verrous différents, car un thread peut lire pendant qu'un autre thread écrit sans que cela ne pose problème.   \\
+Par contre on a pas eu besoin de protéger les fonctions \textit{ PutString } et \textit{ GetString } car ils utilisent les fonctions  \textit{ PutChar }  et \textit{ GetChar } qui sont déjà protégées. Cependant nous aurions pu rajouter des sémaphores pour faire en sorte que les fonctions récupèrent des chaînes de caractères consécutives. Or ce comportement  n'est pas celui donné dans Unix, donc nous avons décidé de ne pas l'ajouter. 
+\subsection{Gestion de la mémoire des threads }
+   \paragraph{}
+   La création de plusieurs threads n'était pas possible au début a cause de l'allocation de pile qui était trop simpliste. C'est à dire, la fonction \textit{ AllocateUserStack } retournais toujours la même valeur, ainsi tous les threads avaient la même pile. Pour régler ce problème, nous avons utiliser la classe \textit{ Bitmap } qui nous a permis de gérer la disponibilité et la répartition des pile threads.
+
+\section{Terminaison automatique}
+Au début tous les threads doivent se terminer par l'appel système  \textit{ ThreadExit } sinon les threads continue à exécuter du code qui n'est pas le leur et provoque des erreurs . Pour régler ce problème, nous avons mis l'adresse de l'appel système \textit{ ThreadExit } dans le registre \textit{ RetAddrReg }. Ainsi le thread exécutera \textit{ ThreadExit }  quand il finira sa fonction.   
+
+\chapter{Points délicats et limitation }
+	\section{Points délicats}
+	Dans un premier temps nous avons eu un problème avec la première partie du TP , en exécutant le fichier  \textit{ makethreads.c } que nous avons mis en place pour tester le bon fonctionnement de notre implémentation, en utilisant un simple  \textit{ PutChar } dans le thread crée, nous avons remarqué que le thread se crée mais que la machine s'arrête un peu tôt ( avant que le thread fils ne puisse exécuter sa fonction). Cela était du au thread principal qui sortait de la fonction main et arrêtait la machine sans laisser le temps à l'autre thread de continuer à s'exécuter , on l'a donc fait attendre avec une boucle infini après la création du thread.\\
+	Mais nous avons amélioré notre implémentation en modifiant \textit{ ThreadExit } pour que ça compte le nombre de thread, et permette au dernier d'avertir le thread principal pour qu'il arrête la machine.
+	
+	\paragraph{}
+	L'appel système \textit{ ThreadCreate } arrête la création du thread et retourne -1 quand il n'y a plus de place pour sa pile. Pour éviter cela, nous aurions pu utiliser un semaphore initialisé par le nombre de pile de thread maximal. Si un thread est créé alors qu'il n'y a plus de place pour sa pile, il doit attendre la fin d'un autre thread pour allouer sa pile sur emplacement de la pile du thread qui vient de se finir. 
+		\section{Limitation}
+ Notre système ne peut exécuter plus de 4 threads en même temps. Nous aurons pu implémenter des méthodes pour ré-allouer la mémoire des pile thread. 
+	
+	
+\chapter{Tests}
+	Nous avons d'abord testé le fonctionnement de la création d'un seul thread exécutant un simple \textit{ PutChar } dans le fichier \textit{ makethread.c }. Les fichiers \textit{ multiThreadAvecPutChar.c } et \textit{ multiThreadAvecBoucleFor.c } démontrent le bon fonctionnement de plusieurs threads.\\
+	le fichier \textit{ multiThreadSansThreadExit.c }  contient le programme test qui démontre le bon fonctionnement de la terminaison automatique des threads. Quant au fichier \textit{ TestBitMap.c } , il teste le bon fonctionnement de \textit{ ThreadCreate } dans le cas ou nous voulons créer plus de threads que possible.
+	Une petite documentation permettant de comprendre le test est disponible en début de chaque fichier.\\
+	\begin{verbatim}
+	Dans le répertoire userprog :
+   	        ./nachos -rs -x ../test/makethreads
+   	        ./nachos -rs -x ../test/multiThreadAvecPutChar
+   	        ./nachos -rs -x ../test/multiThreadAvecBoucleFor
+   	        ./nachos -rs -x ../test/multiThreadSansThreadExit
+   	        ./nachos -rs -x ../test/TestBitMap
+   		
+	\end{verbatim}
+
+\end{document}
+

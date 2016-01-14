@@ -1,0 +1,18 @@
+\select@language {french}
+\contentsline {chapter}{\numberline {1}Introduction}{2}
+\contentsline {chapter}{\numberline {2}Impl\IeC {\'e}mentation}{3}
+\contentsline {section}{\numberline {2.1}Entr\IeC {\'e}es-sorties}{3}
+\contentsline {paragraph}{}{3}
+\contentsline {paragraph}{}{3}
+\contentsline {section}{\numberline {2.2}Appel syst\IeC {\`e}me PutChar}{3}
+\contentsline {paragraph}{}{3}
+\contentsline {paragraph}{}{4}
+\contentsline {section}{\numberline {2.3} Des caract\IeC {\`e}res aux cha\IeC {\^\i }nes}{4}
+\contentsline {paragraph}{}{4}
+\contentsline {paragraph}{}{4}
+\contentsline {section}{\numberline {2.4}Modification de fin de fonction }{4}
+\contentsline {paragraph}{}{4}
+\contentsline {section}{\numberline {2.5}Fonctions de lecture}{5}
+\contentsline {paragraph}{}{5}
+\contentsline {chapter}{\numberline {3}Tests}{6}
+\contentsline {chapter}{\numberline {4}Conclusion}{7}

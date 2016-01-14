@@ -1,0 +1,130 @@
+	________________________________________
+
+		Gestion Memoire: Pagination 
+	________________________________________
+
+
+Lors de la création de l'espace d'adressage, on a une zone (un trou) qui n'est pas alloué. 
+du coup on rajoute un bit valid pour chaque entrée de la table. 
+   Bit valid à 1 si espace valid et 0 sinon.
+   
+	_______
+	! Pile!
+	-------
+         trou
+	_______
+	! tas !
+	! data!  
+	_______
+	! code
+	-------
+	
+			
+ Les pages physiques nécessaires au fonctionnement d'un processus sont allouées une par une (ex: dans linux get_Free_page() ).
+
+
+ *********** COMBIEN COÛTE L' ALLOCATION D’UNE PAGE? ***********
+ 
+ si la gestion des pages libres est faite avec une liste chaînée, complexité en o(1) + le temps qu'il faut pour effacer le contenu des pages.
+
+
+
+Le nombre de pages allouées à un processus peut varier dans le temps.
+   Ex malloc/free 
+Lorsque le tas doit grossir pour satisfaire un malloc, la bibliothèque effectue un appel system.
+
+
+
+on peut avoir plusieurs niveaux de tables de page. Et les données qui nous interressent sont au dernier niveau de table.
+
+Ex table de niveau 2. 
+
+les 2 premiers bits des pointeurs de la table du premier niveau donnent l'indice de la table du second et les 18 suivant donnent le déplacement dans la table du second.  
+
+
+Grâce aux tables hierarchiques, on évite d'allouer des sous tables entières. 
+
+Le problème est que avec tous ces niveaux d'hiérarchie, le processeur est n fois plus lent. donc on instaure un système de cache. 
+Le cache mémorise les entrées accédées le plus récemment. Il supprime celles accédées le moins récemment. la stratégie utilisée est LRU (Least Recently Used).
+
+
+
+   	 ________
+	 ! CPU  !
+	 !______!
+	  ___!__
+         ! Cache!        dans le cache on a des couples (@dresse mémoire, valeur).
+	 !______!                               
+	     !     
+	     !
+         ____!_____
+	 ! Memoire !
+	 !_________!
+	     
+	  	
+Cache = TLB (Translation Look-ahead Buffer).
+Dans le cache, les entrées sont valides. (On ne stocke pas des entrées invalides car on accélererai l'arrivée du segemntation fault). 
+Lorsqu'on fait un changement de contexte, on a le choix entre : vider la table de page et la sauvegarder (dans la mémoire du TLB)?. Ceci dépend du nombre de niveau. 
+
+EX de TLB 
+      	  
+      	  ______________________________________ 
+	  ! PID ! page virt !    page  phys    !
+	  !_____!___________!__________________!
+	  ! P1  !   3       !          !w!r!x!v!
+	  !_____!___________!__________!_!_!_!_!
+Dans le processeur , on a un circuit MMU.
+
+*******************************************************************************
+     En nachos le processeur et la mémoire physique sont dans la même classe : Machine.
+
+     
+     Mémoire physique = Main memory
+     Table des pages = pageTable
+
+     effacer une page dans MainMemory
+
+
+
+     	     *****************************	
+	     OPTIMISATION DE LA PAGINATION
+	     *****************************
+
+1) Allocation "paresseuse" de pages
+   -------------------------------
+ Idée: Le noyau mémorise la liste des segments d'un processus dans un petit carnet. 
+
+Lors d'une interruption "PageFault" (Accès à une page invalide).
+
+- Si l'adresse fautive ne correspond pas à un segment connu 
+     ---> SIGSEGV
+- Sinon le noyau doit corriger ie allouer la page d'urgence! Pour ce, : 
+  	* Trouver une page physique libre get_free_page()
+	* Inscrire son numéro dans le champ de la table des pages (les registres concernés).
+	* On positionne les droits de la page conformément au carnet 
+	* On marque la page "valide" 
+
+ 
+ Lorsque le traitant d'interruption termine, l'exécution de l'instruction fautive est retentée ...
+ ------> Cette fois ci, elle marche !!!
+
+
+2) Copy-on-Writ
+Idée : Lors d'un fork, on partage physiquenment les pages avec le père mais en lecture seule.
+
+
+Lors d'une PageFault, le noyau vérifie dans son petit carnet pour voir si l'accès est légitime.
+     * Si oui, alors :
+       	  - On ne partage plus la page avec un autre processus donc on rétablit les droits 
+	  - Sinon , il faut faire une copie de la page physique ailleur et utiliser cette nouvelle version.
+
+
+
+3) Allocation dynamique de la pile 
+   ------------------------------
+
+.
+.
+.
+
+  	    

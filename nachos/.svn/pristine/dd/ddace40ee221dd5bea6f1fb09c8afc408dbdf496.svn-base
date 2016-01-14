@@ -1,0 +1,31 @@
+#include "syscall.h"
+
+void print(char c,int n)
+{
+  int i;
+#if 1
+  for (i = 0; i < n; i++){
+    PutChar(c +i);
+  }
+  PutChar('\n');
+#endif
+}
+
+int main(){
+ 
+  /*print('a',4);
+  char str[12];
+  
+  GetString(str,12);
+  
+  PutString(str); */
+  /* test INt
+ int x;
+  GetInt(&x);
+  PutInt(x);
+  */
+
+
+
+   Halt();
+}

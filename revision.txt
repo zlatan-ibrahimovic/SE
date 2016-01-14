@@ -1,0 +1,22 @@
+main(){
+  mutex_t *m;
+  cond_t *c;
+  int nb=0;
+}
+
+
+voir attendre(){
+	mutex_lock(&m);
+	if(++nb!=MAX){
+	  cond_wait(&c,&m);
+	}
+	mutex_unlock(&m);
+}
+
+void signaler(){
+  	mutex_lock(&m);
+	if(nb==MAX){
+	 cond_bcast(&c); 
+	}
+	mutex_unlock(&m);
+}

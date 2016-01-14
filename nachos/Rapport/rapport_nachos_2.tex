@@ -1,0 +1,132 @@
+\documentclass[12pt, a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{subfig}
+\usepackage{float}
+%\usepackage{algorithm,algorithmic}
+\usepackage[inoutnumbered]{algorithm2e}
+
+
+
+
+
+\title{NACHOS:Multithreading}
+\author{
+	ANABA Henri Frank\\
+	CONSTANS Olivier\\
+	TOUATI Amira
+	}
+	
+\begin{document}
+
+\makeatletter
+  \begin{titlepage}
+  \centering
+      {\large\textbf{	Université de Bordeaux\\
+       Département Master}}\\
+      \includegraphics[width=0.20\textwidth]{logo-labri}
+      \hfill
+      \includegraphics[width=0.50\textwidth]{universite-bordeaux-logo}\\
+    \vspace{4cm}
+      
+       {\LARGE \textbf{\@title}} \\
+    \vspace{2cm}
+   
+    \vspace{4em}
+        {\large \@author} \\
+    \vfill
+    	{\large 1ère Année de Master Informatique}\\
+    	{\large \textsc{2014-2015}}\\
+    
+    \end{titlepage}
+
+
+\tableofcontents
+
+
+
+\chapter{Bilan}
+
+
+\section{Multithreading dans les programmes utilisateurs}
+
+Dans cette partie nous avons essayé de permettre aux programme utilisateurs de créer un thread fils avec un appel système qui utilisera le thread noyau. Nous avons donc mis en place l'interface des appels système  \textit{ ThreadCreate } et \textit{ ThreadExit }.
+	\paragraph{}
+ L'appel système \textit{ ThreadCreate } crée un nouveau thread l'initialise et le place dans la file d'attente des threads grace à la fonction  \textit{ do\_ThreadCreate } qu'on a implémenté, Cette dernière instancie le thread et lance la fonction  \textit{ StartUserThread}. Celle-ci permet de mettre à jour les registres. le registre \textit{ PCReg } contiendra la fonction qui sera executé par le thread fils, le registre 4  aura les parametres de la fonction, tandis que le registre \textit{StackReg } aura l'adresse du thread fils, on mettra également à jour le registre -\textit{ NextPCReg } pour y mettre l'adresse de la prochaine instruction.
+Pour l'espace d'adressage du thread crée on a du implémenter la méthode  \textit{ AllocateUserStack} qui retourne l'adresse de la pile ( les premiers 256 octets endessous de la pile du thread principal). Mais la création du thread peut quand même échouer dans le cas où il existe plusieurs threads et que la pile du thread principal \textit{ UserStacksAreaSize } est saturée.
+	\paragraph{}
+ L'appel système \textit{ ThreadExit } appelle la fonction \textit{ do\_ThreadExit } qui détruit le thread propulseur par l'appel \textit{ currentThread->Finish }. on utilise cela pour que le thread se termine lui même mais pas le processus, pour laisser les autre threads tourner dessus.
+
+\section{Plusieurs threads par processus}
+
+Dans cette partie on a cherché a amélioré notre implémentation. \\   
+On a d'abord protèger les fonctions noyau \textit{ PutChar }  et \textit{ GetChar } par un verrou. Car quand nous avons essayé de faire des écritures depuis le thread principal et depuis le thread fils, et cela affichait un message d'erreur car les requetes des deux threads se mélangeait. \\
+On peut utiliser deux verrous differents, car un thread peut lire pendant qu'un autre thread écrit sans que cela ne pose probleme.   \\
+Par contre on a pas eu besoin de protéger les fonctions \textit{ PutString } et \textit{ GetString } car ils utilisent les fonctions  \textit{ PutChar }  et \textit{ GetChar } qui sont déjà protègées. Cependant nous aurions pu rajouter des sémaphores pour faire en sorte que les fonctions recuperes des chaines de caractères consécutives. Or ce comportement  n'est pas celui donné dans Unix, donc nous avons décidé de ne pas l'ajouter. \\
+On a ensuite modifié notre implémentation pour que  \textit{ ThreadExit } compte le nombre de thread, pour autoriser le dernier a avertir le thread principal pour qu'il arrete la machine.
+   \paragraph{}
+   on devait aussi permettre la création de plusieur threads, ce qui n'était pas possible au début a cause de l'allocation de pile qui est trop simpliste. C'est à dire, la fonction \textit{ AllocateUserStack } retournais toujours la même valeurs, ainsi tous les threads avaient la même pile.
+
+\chapter{Points délicats et limitation }
+	\section{Points délicats}
+	Dans un premier temps nous avons eu un problème avec la premiere partie du tp , en exécutant le fichier  \textit{ makethreads.c } que nous avons mis en place pour tester le bon fonctionemment de notre implémentation en utilisant un simple  \textit{ PutChar } dans le thread crée, nous avons remarqué que le thread se crée mais que la machine s'arrete un peu tôt ( avant que le thread fils ne puisse executer sa fonction). Cela était du au thread principal qui sortait de la fonction main et arretait la machine sans laisser le temps à l'autre thread de continuer à s'exècuter , on l'a donc fait attendre avec une boucle infini après la création du thread.
+	\paragraph{}
+
+		\section{Limitation}
+
+	Pour pouvoir afficher simultanément des chaîne de caractères et des entiers, l'utilisateur doit utiliser consécutivement les fonctions \textit{ PutString } et \textit{ PutInt }. Pour régler ce problème nous aurions pu implémenter la fonction \textit{ printf }.
+	
+\chapter{Tests}
+	Nous avons d'abord testé les fonctions d'écriture pour pouvoir les utiliser dans les tests de lecture. Nous avons un fichier de test par appel système. Une petite documentation permettant de comprendre le test est disponible en début de chaque fichier.\\
+	\begin{verbatim}
+	Dans le répertoire userprog :
+   	        ./nachos -x ../test/threadCreate
+   		./nachos -x ../test/putCtring
+   		./nachos -x ../test/putInt
+   		./nachos -x ../test/getChar
+   		./nachos -x ../test/getString
+   		./nachos -x ../test/getInt
+	\end{verbatim}
+
+\end{document}
+ . Bilan
+
+Résumez très brièvement le travail que vous avez effectué, en mettant
+en évidence ce qui fonctionne, ce qui ne marche pas, ce qui n'a pas
+été fait par manque de temps mais qui ne pose pas de problème
+technique particulier (donnez des indications sur ce qui reste à
+faire), etc. Soyez honnête : indiquer qu'il reste des bugs en montrant
+que vous en êtes conscient est préférable à prétendre à tort que tout
+marche parfaitement...
+
+II . Points délicats
+
+Indiquez quels sont les aspects que vous avez le plus creusés, qui
+étaient les plus délicats/complexes, ou qui vous ont demandé le plus
+de travail à cause de problèmes de mise au point. Choisissez un de ces
+aspects et détaillez les stratégies utilisées pour résoudre le
+problème.
+
+III . Limitations
+
+Critiquez votre implémentation (i.e. listez les avantages &
+inconvénients) et indiquez clairement ses limitations. Lesquelles vous
+paraissent-elles les plus gênantes ?
+
+IV . Tests
+
+Décrivez brièvement la stratégie que vous avez utilisée pour écrire
+des programmes de test "convaincants" accompagnés de jeux de données
+représentatifs de conditions de "stress" pour votre implémentation.
+
+Il n'est pas demandé d'inclure du code ou le mode d'emploi des
+programmes de test : le code source de ces derniers doit contenir tous
+les commentaires permettant de les exécuter avec les bons paramètres
+et de connaître la sortie normale attendue à l'écran.
+----------------------------------
+

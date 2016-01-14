@@ -1,0 +1,3 @@
+digraph Stree {
+e_0 [shape="ellipse", label="SEQ"];
+}
